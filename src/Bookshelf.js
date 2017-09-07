@@ -3,12 +3,13 @@ import Book from './Book'
 
 class Bookshelf extends Component {
   render() {
+    const books = this.props.books.filter((book) => book.shelf === this.props.shelf);
     return (
           <div className="bookshelf">
             <h2 className="bookshelf-title">{this.props.title}</h2>
             <div className="bookshelf-books">
               <ol className="books-grid">
-                {this.props.books.filter((book) => book.shelf === this.props.shelf).map((book) =>
+                {books.map((book) =>
                   <Book book={book}/>
                 )}
               </ol>
@@ -18,4 +19,4 @@ class Bookshelf extends Component {
   }
 }
 
-export default Bookshelf
+export default Bookshelf;

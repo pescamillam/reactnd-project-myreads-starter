@@ -8,7 +8,8 @@ import ListBooks from './ListBooks';
 class BooksApp extends Component {
 
   state = {
-    books: []
+    books: [],
+    foundBooks: []
   }
 
   componentDidMount() {
@@ -24,7 +25,7 @@ class BooksApp extends Component {
           <ListBooks books={this.state.books}/>
         )}/>
         <Route path='/search' render={() => (
-          <SearchBooks/>
+          <SearchBooks books={this.state.foundBooks}/>
         )}/>
       </div>
     )
