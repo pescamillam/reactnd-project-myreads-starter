@@ -24,8 +24,8 @@ class SearchBooks extends Component {
           <ol className="books-grid"></ol>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default SearchBooks
+export default SearchBooks;
