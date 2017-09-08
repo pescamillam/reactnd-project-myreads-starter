@@ -8,8 +8,7 @@ import ListBooks from './ListBooks';
 class BooksApp extends Component {
 
   state = {
-    books: [],
-    foundBooks: []
+    books: []
   }
 
   componentDidMount() {
@@ -18,14 +17,27 @@ class BooksApp extends Component {
     })
   }
 
+  updateBook(bookToUpdate, shelf) {
+    this.setState(
+      (prev) => {
+        prev.books.map((book) => {
+          if (book.id === bookToUpdate.id) {
+            book.shelf = shelf;
+          }
+          return book;
+        })
+      }
+    );
+  }
+
   render() {
     return (
       <div className="app">
         <Route exact path='/' render={() => (
-          <ListBooks books={this.state.books}/>
+          <ListBooks books={this.state.books} onUpdateBook={(book, shelf) => this.updateBook(book, shelf)}/>
         )}/>
         <Route path='/search' render={() => (
-          <SearchBooks books={this.state.foundBooks}/>
+          <SearchBooks onUpdateBook={(book, shelf) => this.updateBook(book, shelf)}/>
         )}/>
       </div>
     )

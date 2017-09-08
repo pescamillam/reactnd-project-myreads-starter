@@ -10,7 +10,7 @@ class SearchBooks extends Component {
     books: []
   }
 
-  updateQuery = (query) => {
+  updateQuery(query) {
     this.setState({ query: query.trim() });
     if (query.trim().length > 0) {
       BooksAPI.search(query.trim()).then((books) => {
@@ -43,7 +43,7 @@ class SearchBooks extends Component {
         <div className="search-books-results">
           <ol className="books-grid">
             {this.state.books && Array.isArray(this.state.books) && this.state.books.map((book) =>
-              <Book book={book} key={book.id}/>
+              <Book book={book} key={book.id} onUpdateBook={this.props.onUpdateBook}/>
             )}
           </ol>
         </div>
