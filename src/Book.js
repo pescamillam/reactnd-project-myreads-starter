@@ -5,7 +5,7 @@ class Book extends Component {
 
   changeShelf(e) {
     let book = this.props.book;
-    book.shelf = event.target.value;
+    book.shelf = e.target.value;
     BooksAPI.update(book, e.target.value);
     this.props.onUpdateBook(book, e.target.value);
   }

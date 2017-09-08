@@ -20,12 +20,16 @@ class BooksApp extends Component {
   updateBook(bookToUpdate, shelf) {
     this.setState(
       (prev) => {
-        prev.books.map((book) => {
-          if (book.id === bookToUpdate.id) {
-            book.shelf = shelf;
-          }
-          return book;
-        })
+        if (prev.books.filter((book) => book.id === bookToUpdate.id).length > 0) {
+          prev.books.map((book) => {
+            if (book.id === bookToUpdate.id) {
+              book.shelf = shelf;
+            }
+            return book;
+          });
+        } else {
+          prev.books.push(bookToUpdate);
+        }
       }
     );
   }
@@ -37,7 +41,7 @@ class BooksApp extends Component {
           <ListBooks books={this.state.books} onUpdateBook={(book, shelf) => this.updateBook(book, shelf)}/>
         )}/>
         <Route path='/search' render={() => (
-          <SearchBooks onUpdateBook={(book, shelf) => this.updateBook(book, shelf)}/>
+          <SearchBooks books={this.state.books} onUpdateBook={(book, shelf) => this.updateBook(book, shelf)}/>
         )}/>
       </div>
     )
