@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Book from './Book';
 import * as BooksAPI from './BooksAPI';
+import createHistory from 'history/createBrowserHistory';
 
 class SearchBooks extends Component {
 
@@ -15,7 +16,7 @@ class SearchBooks extends Component {
     if (query.trim().length > 0) {
       BooksAPI.search(query.trim()).then((books) => {
         this.setState({
-          books: books.map((book) => {
+          books: books.error ? [] : books.map((book) => {
             const myBook = this.props.books.filter((myBook) => book.id === myBook.id)[0];
             book.shelf = myBook ? myBook.shelf : 'none';
             return book;
@@ -23,6 +24,23 @@ class SearchBooks extends Component {
         })
       })
     }
+    const history = createHistory();
+    history.push('/search/?q='+query);
+  }
+
+  componentDidMount() {
+    const history = createHistory();
+    if (history.location.search) {
+      const params = this.getUrlParams(history.location.search)
+      this.updateQuery(params["q"]);
+    }
+  }
+
+  getUrlParams(paramsString) {
+    return paramsString.substring(1).split("&").reduce(function(map, obj) {
+      map[obj.split("=")[0]] = obj.split("=")[1];
+      return map;
+    }, {});
   }
 
   render() {
@@ -42,6 +60,7 @@ class SearchBooks extends Component {
             <input
               type="text"
               placeholder="Search by title or author"
+              value={this.state.query}
               onChange={(event) => this.updateQuery(event.target.value)}/>
 
           </div>
